@@ -2,7 +2,7 @@
 # Crypt::HCE_MD5
 # implements one way hash chaining encryption using MD5
 #
-# $Id: HCE_MD5.pm,v 1.2 1999/04/07 04:14:13 eric Exp $
+# $Id: HCE_MD5.pm,v 1.3 1999/08/17 13:35:06 eric Exp $
 #
 
 package Crypt::HCE_MD5;
@@ -24,7 +24,7 @@ require AutoLoader;
 @EXPORT = qw(
 	
 );
-$VERSION = '0.45';
+$VERSION = '0.60';
 
 sub new {
     my $class = shift;
@@ -114,7 +114,7 @@ sub hce_block_encode_mime {
     my ($data) = @_;
     
     my $new_data = $self->hce_block_encrypt($data);
-    my $encode = encode_base64($new_data);
+    my $encode = encode_base64($new_data, "");
     return $encode;
 }
  

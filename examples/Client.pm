@@ -64,10 +64,10 @@ sub send {
 #	    syslog('debug','Client encode: %s',$item);
 	    $enc_item = $self->{'HCE'}->hce_block_encode_mime($item);
 #	    syslog('debug','Client sending: %s', $enc_item);
-	    print { $self->{'Socket'} } "$enc_item";
+	    print { $self->{'Socket'} } "$enc_item\n";
 	}
 	$enc_item = $self->{'HCE'}->hce_block_encode_mime("+END_OF_LIST");
-	print { $self->{'Socket'} } "$enc_item";
+	print { $self->{'Socket'} } "$enc_item\n";
     } else {
 	foreach $item (@items) {
 #	    syslog('debug','Client sending: %s',$item);

@@ -91,10 +91,10 @@ sub send {
 #	    syslog('debug','Server encode: %s',$item);
 	    $enc_item = $self->{'HCE'}->hce_block_encode_mime($item);
 #	    syslog('debug','Server sending: %s', $enc_item);
-	    print { $self->{'Connect'} } "$enc_item";
+	    print { $self->{'Connect'} } "$enc_item\n";
 	}
 	$enc_item = $self->{'HCE'}->hce_block_encode_mime("+END_OF_LIST");
-	print { $self->{'Connect'} } "$enc_item";
+	print { $self->{'Connect'} } "$enc_item\n";
     } else {
 	foreach $item (@items) {
 #	    syslog('debug','Server sending: %s',$item);
