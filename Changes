@@ -15,10 +15,8 @@ Revision history for Perl extension Crypt::HCE_MD5.
 0.45 fixed chaining key bug, thanks to Jake Angerman for
      pointing out the weakness
 
-0.50 removed syslog from test.pl so that it runs under
-     ActiveState without problems
-     to prevent early line breakage switched the base64 encode
-     eol to "" so it wouldn't insert newlines.  This means if 
-     you use newlines for your data breaks, like the examples do,
-     you'll need to add an explicit \n to your send line, like
-     print { $self->{'Socket'} } "$enc_item\n";
+0.60 fixed bug in encoding to not allow mime to put in it's own
+     returns.  Client.pm and Server.pm where updated to reflect
+     this changes, thanks to Trance for the bug report
+
+0.65 removed syslog from test.pl
