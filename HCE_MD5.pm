@@ -24,7 +24,7 @@ require AutoLoader;
 @EXPORT = qw(
 	
 );
-$VERSION = '0.02';
+$VERSION = '0.03';
 
 sub new {
     my $class = shift;
@@ -146,7 +146,7 @@ Two interfaces are provided in the module.  The first is straight block encrypti
 
 The idea is the the two sides have a shared secret that supplies one of the keys and a randomly generated block of bytes provides the second key.  The random key is passed in cleartext between the two sides.
 
-An example client and server are packaged as modules with this module.  They are used in the tests.
+An example client and server are packaged as modules with this module.  They are used in the tests.  They can also be found in the examples directory.
 
 =head1 AUTHOR
 

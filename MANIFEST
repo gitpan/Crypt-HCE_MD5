@@ -1,8 +1,9 @@
 Changes
 HCE_MD5.pm
 MANIFEST
+README
 Makefile.PL
 test.pl
-Client.pm
-Server.pm
-HOW_TO_USE
+examples/Client.pm
+examples/Server.pm
+examples/HOW_TO_USE

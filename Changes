@@ -3,3 +3,6 @@ Revision history for Perl extension Crypt::HCE_MD5.
 0.01  Wed Oct 14 16:23:57 1998
 	- original version; created by h2xs 1.18
 
+0.02 implementation
+
+0.03 moved examples to their own directory
