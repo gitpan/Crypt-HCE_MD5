@@ -24,7 +24,7 @@ require AutoLoader;
 @EXPORT = qw(
 	
 );
-$VERSION = '0.40';
+$VERSION = '0.45';
 
 sub new {
     my $class = shift;
@@ -32,10 +32,14 @@ sub new {
  
     bless $self, $class;
  
-    if (scalar(@_) != 2) {
-        croak "Error: must be invoked HCE_MD5->new(key, random_thing)";
+    if ((scalar(@_) != 2) && (scalar(@_ != 3))) {
+        croak "Error: must be invoked HCE_MD5->new(key, random_thing) or HCE_MD5->new(KEYBUG, key, random_thing)";
     }
- 
+    if ($_[0] eq "KEYBUG") {
+	$self->{HAVE_KEYBUG} = shift(@_);
+    } else {
+	delete $self->{HAVE_KEYBUG};
+    }
     $self->{SKEY} = shift(@_);
     $self->{RKEY} = shift(@_);
  
@@ -67,7 +71,11 @@ sub hce_block_encrypt {
     for($i=0; $i < $data_size; $i++) {
         $mod = $i % 16;
         if (($mod == 0) && ($i > 15)) {
-            @e_block = $self->_new_key((@ans)[($i-16)..($i-1)]);
+	    if (defined($self->{HAVE_KEYBUG})) {
+		@e_block = $self->_new_key((@ans)[($i-16)..($i-1)]);
+	    } else {
+		@e_block = $self->_new_key(pack 'C*', (@ans)[($i-16)..($i-1)]);
+	    }
         }
         $ans[$i] = $e_block[$mod] ^ $data[$i];
     }
@@ -89,7 +97,11 @@ sub hce_block_decrypt {
     for($i=0; $i < $data_size; $i++) {
         $mod = $i % 16;
         if (($mod == 0) && ($i > 15)) {
-            @e_block = $self->_new_key((@data)[($i-16)..($i-1)]);
+	    if (defined($self->{HAVE_KEYBUG})) {
+		@e_block = $self->_new_key((@data)[($i-16)..($i-1)]);
+	    } else {
+		@e_block = $self->_new_key(pack 'C*', (@data)[($i-16)..($i-1)]);
+	    }
         }
         $ans[$i] = $e_block[$mod] ^ $data[$i];
     }
@@ -130,6 +142,7 @@ Crypt::HCE_MD5 - Perl extension implementing one way hash chaining encryption us
   use Crypt::HCE_MD5;
   
   $hce_md5 = Crypt::HCE_MD5->new("SharedSecret", "Random01,39j309ad");
+  $hce_md5 = Crypt::HCE_MD5->new('KEYBUG', "TheSecret", "junk o rama");
   
   $crypted = $hce_md5->hce_block_encrypt("Encrypt this information");
   $info = $hce_md5->hce_block_decrypt($crypted);
@@ -146,6 +159,12 @@ Two interfaces are provided in the module.  The first is straight block encrypti
 The idea is the the two sides have a shared secret that supplies one of the keys and a randomly generated block of bytes provides the second key.  The random key is passed in cleartext between the two sides.
 
 An example client and server are packaged as modules with this module.  They are used in the tests.  They can also be found in the examples directory.
+
+The 'KEYBUG' flag is for decrypting data encrypted with an older version of Crypt::HCE_MD5.  There was a bug in the chaining portion that prevented the full 16 bytes of the previous block from being using in creating the chaining hash.  Decrypt your old data and re-encrypt it without the KEYBUG flag.
+
+The release after this one will have the KEYBUG feature removed, but I'll leave this version on CPAN
+
+Thanks to Jake Angerman for pointing out the weakness.
 
 =head1 AUTHOR
 
