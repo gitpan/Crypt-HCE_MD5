@@ -4,5 +4,6 @@ use ExtUtils::MakeMaker;
 WriteMakefile(
     'NAME'	=> 'Crypt::HCE_MD5',
     'VERSION_FROM' => 'HCE_MD5.pm', # finds $VERSION
-    'PREREQ_PM' => {'MD5' => 0} # checks for MD5 perl module
+    'PREREQ_PM' => {'Digest::MD5' => 2, 
+		    'MIME::Base64' => 2}
 );

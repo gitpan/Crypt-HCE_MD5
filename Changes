@@ -6,3 +6,8 @@ Revision history for Perl extension Crypt::HCE_MD5.
 0.02 implementation
 
 0.03 moved examples to their own directory
+
+0.05 fixed description man bug (had an extra space)
+     added check for MIME::Base64 
+
+0.40 updated to use Digest::MD5 by Gisle Aas
