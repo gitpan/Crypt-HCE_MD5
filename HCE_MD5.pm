@@ -24,7 +24,7 @@ require AutoLoader;
 @EXPORT = qw(
 	
 );
-$VERSION = '0.65';
+$VERSION = '0.70';
 
 sub new {
     my $class = shift;

@@ -20,3 +20,4 @@ Revision history for Perl extension Crypt::HCE_MD5.
      this changes, thanks to Trance for the bug report
 
 0.65 removed syslog from test.pl
+0.70 removed the other syslog from test.pl

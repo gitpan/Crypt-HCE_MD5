@@ -80,7 +80,6 @@ use IO::Select;
 use IO::Socket;
 use strict;
 use Carp;
-#use Sys::Syslog;
 #use HCE_MD5;
 
 my @response;
@@ -173,7 +172,6 @@ sub send {
 	print { $self->{'Connect'} } "$enc_item\n";
     } else {
 	foreach $item (@items) {
-#	    syslog('debug','Server sending: %s',$item);
 	    print { $self->{'Connect'} } "$item\n";
 	}
     }
@@ -233,7 +231,6 @@ use IO::Select;
 use IO::Socket;
 use strict;
 use Carp;
-use Sys::Syslog;
 #use HCE_MD5;
 
 my @response;
@@ -290,16 +287,13 @@ sub send {
 
     if (defined($self->{'HCE'})) {
 	foreach $item (@items) {
-#	    syslog('debug','Client encode: %s',$item);
 	    $enc_item = $self->{'HCE'}->hce_block_encode_mime($item);
-#	    syslog('debug','Client sending: %s', $enc_item);
 	    print { $self->{'Socket'} } "$enc_item\n";
 	}
 	$enc_item = $self->{'HCE'}->hce_block_encode_mime("+END_OF_LIST");
 	print { $self->{'Socket'} } "$enc_item\n";
     } else {
 	foreach $item (@items) {
-#	    syslog('debug','Client sending: %s',$item);
 	    print { $self->{'Socket'} } "$item\n";
 	}
 	print { $self->{'Socket'} } "+END_OF_LIST\n";
