@@ -1,0 +1,12 @@
+# http://module-build.sourceforge.net/META-spec.html
+#XXXXXXX This is a prototype!!!  It will change in the future!!! XXXXX#
+name:         Crypt-HCE_MD5
+version:      0.50
+version_from: HCE_MD5.pm
+installdirs:  site
+requires:
+    Digest::MD5:                   2
+    MIME::Base64:                  2
+
+distribution_type: module
+generated_by: ExtUtils::MakeMaker version 6.17

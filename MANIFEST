@@ -7,3 +7,4 @@ test.pl
 examples/Client.pm
 examples/Server.pm
 examples/HOW_TO_USE
+META.yml                                 Module meta-data (added by MakeMaker)

@@ -18,9 +18,6 @@ print "ok 1\n";
 # (correspondingly "not ok 13") depending on the success of chunk 13
 # of the test code):
 
-$text = "Encrypt and Base64 this information, and we will make sure this is longer than 64 characters just to make sure it is working and not getting caught in a block roll over";
-
-#$text = "short text";
 $hce_md5 = Crypt::HCE_MD5->new("SharedSecret", "Random01,39j309ad");
   
 $crypted = $hce_md5->hce_block_encrypt("Encrypt this information");
@@ -31,15 +28,13 @@ if ($info eq "Encrypt this information") {
     print "not ok 2\n";
 }
 
-$mime_crypted = $hce_md5->hce_block_encode_mime($text);
+$mime_crypted = $hce_md5->hce_block_encode_mime("Encrypt and Base64 this information");
 $info = $hce_md5->hce_block_decode_mime($mime_crypted);
 
-if ($info eq $text) {
+if ($info eq "Encrypt and Base64 this information") {
     print "ok 3\n";
 } else {
-    $l_info = length($info);
-    $l_text = length($text);
-    print "not ok 3 [$info] [$l_info =? $l_text]\n";
+    print "not ok 3\n";
 }
 
 $pid = fork();
@@ -52,21 +47,15 @@ if ($pid != 0) {
     if ($cons == 0) {
 	die "accept timed out";
     }
-    print "server waiting to recieve\n";
     @info = $server->recv();
-    print "server received, server sending\n";
     $server->send(@info);
-    print "server waiting\n";
     wait;
 } else {
     sleep 3;
     $client = Client->new(Server => localhost, Port => 5050, SKey => "SharedSecret");
-    print "client sending\n";
-    $client->send($text."-- Encrypt this information");
-    print "client recieving\n";
+    $client->send("Encrypt this information");
     @info_back = $client->recv();
-    print "client checking response\n";
-    if ($info_back[0] eq $text."-- Encrypt this information") {
+    if ($info_back[0] eq "Encrypt this information") {
 	print "ok 4\n";
     } else {
 	print "not ok 4\n";
@@ -80,7 +69,7 @@ use IO::Select;
 use IO::Socket;
 use strict;
 use Carp;
-use Sys::Syslog;
+#use Sys::Syslog;
 #use HCE_MD5;
 
 my @response;
